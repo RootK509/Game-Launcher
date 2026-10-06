@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게임으로 이동 중...</title>
+  
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #1a1a1a;
+      color: #ffffff;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 4px solid rgba(255, 255, 255, 0.15);
+      border-top-color: #fa5c5c;
+      border-radius: 50%;
+      animation: spin 1s infinite linear;
+      margin-bottom: 20px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: 8px;
+    }
+    p {
+      color: #aaaaaa;
+      font-size: 0.95rem;
+      margin-bottom: 24px;
+    }
+    .btn {
+      display: inline-block;
+      background-color: #fa5c5c;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 0.95rem;
+    }
+  </style>
+
+  <script>
+    // -------------------------------------------------------------------------
+    // 본인의 itch.io 게임 링크로 변경하세요.
+    // -------------------------------------------------------------------------
+    const TARGET_URL = "https://rootk509.itch.io/dungeon-in-debt";
+
+    (function() {
+      const ua = navigator.userAgent.toLowerCase();
+      const isKakao = ua.includes('kakaotalk');
+      const isAndroid = ua.includes('android');
+      const isIOS = ua.includes('iphone') || ua.includes('ipad') || ua.includes('ipod');
+
+      if (isKakao) {
+        if (isAndroid) {
+          // 안드로이드 카카오톡: 크롬 외부 브라우저 인텐트 호출
+          const cleanUrl = TARGET_URL.replace(/^https?:\/\//i, '');
+          location.href = 'intent://' + cleanUrl + '#Intent;scheme=https;package=com.android.chrome;end';
+        } else if (isIOS) {
+          // iOS 카카오톡: 외부 브라우저(Safari) 실행 스킴
+          location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(TARGET_URL);
+        } else {
+          // PC 카카오톡 등
+          location.href = TARGET_URL;
+        }
+      } else {
+        // 일반 브라우저(크롬, 사파리, PC 등) 접속 시 즉시 이동
+        location.href = TARGET_URL;
+      }
+    })();
+  </script>
+</head>
+<body>
+  <div class="spinner"></div>
+  <h2>게임 페이지로 이동하고 있습니다</h2>
+  <p>화면이 자동으로 넘어가지 않으면 아래 버튼을 눌러주세요.</p>
+  <a id="fallback-link" class="btn" href="#">외부 브라우저로 게임 열기</a>
+
+  <script>
+    // 수동 이동 버튼 링크 설정
+    document.getElementById('fallback-link').href = TARGET_URL;
+  </script>
+</body>
+</html>
